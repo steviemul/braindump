@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>Test Animations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="slide.css">
+
+    <script type="application/javascript">
+      let menu, menuIcon;
+
+      function toggleMenu() {
+        if (menu.hasAttribute('opened')) {
+          menu.removeAttribute('opened');
+          menuIcon.removeAttribute('opened');
+          menuIcon.setAttribute('title', 'Open Menu');
+        }
+        else {
+          menu.setAttribute('opened', true);
+          menuIcon.setAttribute('opened', true);
+          menuIcon.setAttribute('title', 'Close Menu');
+        }
+      }
+
+      window.onload = function() {
+        menu = document.querySelector('.app-menu');
+        menuIcon = document.querySelector('.menu-icon');
+      };
+
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="layout">
+        <div class="app-menu">
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="header">
+          <div class="menu-icon" title="Open Menu">
+            <button onclick="toggleMenu()">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>
