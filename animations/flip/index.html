@@ -6,61 +6,47 @@
   </head>
   <body>
     <div class="container">
-      <div class="flip">
-        <div class="side" style="background-color:rgb(58, 61, 68)" front>
+
+      <sm-card id="one">
+        <div style="background-color:rgb(58, 61, 68)" value="front">
           <span>Front</span>
         </div>
-        <div class="side" style="background-color:rgb(151, 154, 161)">
+        <div style="background-color:rgb(151, 154, 161)" value="back">
           <span>Back</span>
         </div>
-      </div>
+      </sm-card>
+    
+      <sm-card>
+        <div style="background-color:red" value="Steve">
+          <span>Steve</span>
+        </div>
+        <div style="background-color:blue" value="Bob">
+          <span>Bob</span>
+        </div>
+      </sm-card>
+      
+      <sm-card>
+        <div style="background-color:black" value="black">
+          <span>Yellow</span>
+        </div>
+        <div style="background-color:green" value="green">
+          <span>Green</span>
+        </div>
+      </sm-card>
+
     </div>
+
     <script>
+      const cards = document.querySelectorAll('sm-card');
 
-      const flip = document.querySelector('.flip');
-      let front = document.querySelector('.flip div[front]');
-      let back = document.querySelector('.flip div:not([front])');
+      for (let i=0;i<cards.length;i++) {
+        const card = cards[i];
 
-      function backTransitionEnd(evt) {
-
-        back.removeEventListener('transitionend', backTransitionEnd);
-
-        front.removeAttribute('front');
-        front.removeAttribute('flippingout');
-        back.setAttribute('front', true);
-        back.removeAttribute('flippingin');
-
-        const copy = front;
-        front = back;
-        back = copy;
+        card.addEventListener('change', function(evt) {
+          console.log(evt.target.value);
+        }); 
       }
-
-      function frontTransitionEnd(evt) {
-
-        front.style.opacity = 0;
-        back.style.opacity = 1;
-
-        front.removeEventListener('transitionend', frontTransitionEnd); 
-
-        back.setAttribute('flippingin', 'true');
-
-        back.addEventListener('transitionend', backTransitionEnd);  
-      }
-
-      function handleClick(evt) {
-        evt.preventDefault();
-        
-        const target = evt.target;
-
-        if (target === front) {
-          front.setAttribute('flippingout', true);
-
-          front.addEventListener('transitionend', frontTransitionEnd);
-        }
-        
-      }
-
-      document.addEventListener('click', handleClick);
     </script>
+    <script type="application/javascript" src="sm-card.js" async></script>
   </body>
 </html>
