@@ -2,8 +2,24 @@
 
 const TRANSITION_TIME = '200ms';
 const TRANSITION = `transform ${TRANSITION_TIME} ease`;
-const FLIPPING_IN = `scale(1.0) rotateZ(0deg) rotateY(0deg)`;
+const FLIPPING_IN = `scale(1.05) rotateZ(0deg) rotateY(0deg)`;
 const FLIPPING_OUT = `scale(0.9) rotateZ(-8deg) rotateY(90deg)`;
+const INITIAL_BACK = `scale(1.05) rotateZ(-8deg) rotateY(-90deg)`;
+
+const FLIPPING_INS = [
+  {
+    transform:`scale(1.1)`,
+  },
+  {
+    transform:`rotateZ(0deg)`
+  }
+];
+
+const TIMING = {
+  'duration':200,
+  'iterations':1,
+  'fill':'forwards'
+};
 
 class SMCard extends HTMLElement {
 
@@ -13,15 +29,15 @@ class SMCard extends HTMLElement {
 
     this.sides = this.querySelectorAll('div');
 
-    if (this.sides.length != 2) {
+    if (this.sides.length < 2) {
       throw "Unexpected number of sides " + this.sides.length;
     }
 
-    this.front = this.sides[0],
-    this.back = this.sides[1];
+    this.front = this.sides[0];
+
+    this.back = this._getCandidate();
 
     this._styleAsCard(this.front);
-    this._styleAsCard(this.back);
 
     this._primeContents();
     this._setupEventHandlers();
@@ -31,6 +47,49 @@ class SMCard extends HTMLElement {
     this.front.style.transition = TRANSITION;
     this.front.style.transform = FLIPPING_OUT;
     this.front.addEventListener('transitionend', this._frontFlipped);
+  }
+
+  _getFrontIndex() {
+    for (let i=0;i<this.sides.length;i++) {
+      const card = this.sides[i];
+
+      if (card === this.front) {
+        return i;
+      }
+    }
+
+    return 0;
+  }
+
+  _getRandom() {
+
+    const candidates = Array.from(this.sides).filter(card => {
+      return card !== this.front;
+    });
+
+    const index = Math.floor(Math.random() * (this.sides.length - 1));
+
+    return candidates[index];
+  }
+
+  _getNext() {
+    let index = this._getFrontIndex() + 1;
+    
+    if (index > (this.sides.length - 1)) {
+      index = 0;
+    }
+
+    return this.sides[index];
+  }
+
+  _getCandidate() {
+    const strategy = this.getAttribute('strategy') || 'next';
+
+    if (strategy === 'random') {
+      return this._getRandom();
+    }
+    
+    return this._getNext();
   }
 
   _frontFlipped(evt) {
@@ -51,7 +110,7 @@ class SMCard extends HTMLElement {
 
     const copy = this.front;
     this.front = this.back;
-    this.back = copy;
+    this.back = this._getCandidate();
 
     this._primeContents();
 
@@ -75,17 +134,25 @@ class SMCard extends HTMLElement {
 
   _primeContents() {
     this.front.style.transition = TRANSITION;
-    this.back.style.transition = TRANSITION;
 
     this.front.style.opacity = 1;
     this.front.style.transform = 'initial';
     this.front.style['will-change'] = 'transform';
     this.front.style['pointer-events'] = 'initial';
 
-    this.back.style.opacity = 0;  
-    this.back.style.transform = `scale(0.9) rotateZ(-8deg) rotateY(-90deg)`;
-    this.back.style['will-change'] = 'transform';
-    this.back.style['pointer-events'] = 'none';
+    Array.from(this.sides).forEach(card => {
+
+      if (card !== this.front) {
+        card.style.transition = TRANSITION;
+        card.style.opacity = 0;  
+        card.style.transform = INITIAL_BACK;
+        card.style['will-change'] = 'transform';
+        card.style['pointer-events'] = 'none';
+
+        this._styleAsCard(card);
+      }
+    });
+    
 
     this.value = this.front.getAttribute('value') || null;
   }

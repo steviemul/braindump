@@ -14,20 +14,26 @@
         <div style="background-color:rgb(151, 154, 161)" value="back">
           <span>Back</span>
         </div>
+        <div style="background-color:rgb(151, 154, 161)" value="left">
+            <span>Left</span>
+          </div>
       </sm-card>
     
-      <sm-card>
+      <sm-card strategy="random">
         <div style="background-color:red" value="Steve">
           <span>Steve</span>
         </div>
         <div style="background-color:blue" value="Bob">
           <span>Bob</span>
         </div>
+        <div style="background-color:green" value="Mike">
+            <span>Mike</span>
+          </div>
       </sm-card>
       
       <sm-card>
         <div style="background-color:black" value="black">
-          <span>Yellow</span>
+          <span>Black</span>
         </div>
         <div style="background-color:green" value="green">
           <span>Green</span>
@@ -39,13 +45,12 @@
     <script>
       const cards = document.querySelectorAll('sm-card');
 
-      for (let i=0;i<cards.length;i++) {
-        const card = cards[i];
-
+      Array.from(cards).forEach(card => {
         card.addEventListener('change', function(evt) {
           console.log(evt.target.value);
         }); 
-      }
+      });
+
     </script>
     <script type="application/javascript" src="sm-card.js" async></script>
   </body>
