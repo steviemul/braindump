@@ -1,0 +1,14 @@
+https://localhost {
+  
+  tls self_signed
+  browse
+
+  gzip {
+    level 9
+  }
+
+}
+
+http://localhost {
+  redir https://localhost
+}

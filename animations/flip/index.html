@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <title>Flipper</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="flip">
+        <div class="side" style="background-color:rgb(58, 61, 68)" front>
+          <span>Front</span>
+        </div>
+        <div class="side" style="background-color:rgb(151, 154, 161)">
+          <span>Back</span>
+        </div>
+      </div>
+    </div>
+    <script>
+
+      const flip = document.querySelector('.flip');
+      let front = document.querySelector('.flip div[front]');
+      let back = document.querySelector('.flip div:not([front])');
+
+      function backTransitionEnd(evt) {
+
+        back.removeEventListener('transitionend', backTransitionEnd);
+
+        front.removeAttribute('front');
+        front.removeAttribute('flippingout');
+        back.setAttribute('front', true);
+        back.removeAttribute('flippingin');
+
+        const copy = front;
+        front = back;
+        back = copy;
+      }
+
+      function frontTransitionEnd(evt) {
+
+        front.style.opacity = 0;
+        back.style.opacity = 1;
+
+        front.removeEventListener('transitionend', frontTransitionEnd); 
+
+        back.setAttribute('flippingin', 'true');
+
+        back.addEventListener('transitionend', backTransitionEnd);  
+      }
+
+      function handleClick(evt) {
+        evt.preventDefault();
+        
+        const target = evt.target;
+
+        if (target === front) {
+          front.setAttribute('flippingout', true);
+
+          front.addEventListener('transitionend', frontTransitionEnd);
+        }
+        
+      }
+
+      document.addEventListener('click', handleClick);
+    </script>
+  </body>
+</html>
