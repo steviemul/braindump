@@ -118,7 +118,10 @@ class SMCard extends HTMLElement {
       target:this
     });
 
-    this.dispatchEvent(changeEvent);
+    requestIdleCallback( () => {
+      this.dispatchEvent(changeEvent);
+    });
+    
   }
 
   _clickHandler(evt) {

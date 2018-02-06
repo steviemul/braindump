@@ -1,0 +1,10 @@
+https://domain1.local https://domain2.local https://shared.domain.local {
+  
+  tls self_signed
+  browse
+
+  gzip {
+    level 9
+  }
+
+}

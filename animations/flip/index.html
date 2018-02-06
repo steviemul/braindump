@@ -40,6 +40,9 @@
         </div>
       </sm-card>
 
+      <div>
+        <button onclick="window.flipAll()">Flip All</button>
+      </div>
     </div>
 
     <script>
@@ -51,6 +54,16 @@
         }); 
       });
 
+      window.onload = function() {
+        window.flipAll = function() {
+          const cards = document.querySelectorAll('sm-card');
+
+          Array.from(cards).forEach(card => {
+            card.flip();
+          });
+        }
+      }
+     
     </script>
     <script type="application/javascript" src="sm-card.js" async></script>
   </body>
