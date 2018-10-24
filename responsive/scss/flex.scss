@@ -1,0 +1,49 @@
+$COLS : 12;
+$GUTTER_WIDTH : 2%;
+$UNIT_SIZE : (100% / $COLS);
+$MOBILE_THRESHOLD : 35.5em;
+$ROW_MARGIN : 10px;
+
+.row {
+  display: block;
+}
+
+.col {
+  width: 100%;
+  margin: $ROW_MARGIN $GUTTER_WIDTH $ROW_MARGIN $GUTTER_WIDTH;
+}
+
+@mixin col($cols) {
+  width:($cols * $UNIT_SIZE) - ($GUTTER_WIDTH * 2);
+}
+
+@mixin offset($cols){
+  margin-left:$cols * $UNIT_SIZE;
+}
+
+// Basic column widths
+@for $i from 1 through 12 {
+  .col.sm-#{$i} { @include col($i) }
+}
+
+@media (min-width: $MOBILE_THRESHOLD) {
+
+  // Turn on a grid layout
+  .row {
+    display: flex;
+    flex-direction: row;
+    margin: $ROW_MARGIN 0 $ROW_MARGIN;
+  }
+
+  
+  // Basic column widths
+  @for $i from 1 through 12 {
+    .col.md-#{$i} { @include col($i) }
+  }
+  
+}
+
+// Basic column offset
+ @for $i from 1 through 12 {
+  .col.off-#{$i} { @include offset($i) }
+}
