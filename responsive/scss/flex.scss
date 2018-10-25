@@ -1,32 +1,30 @@
 $COLS : 12;
-$GUTTER_WIDTH : 0.5rem;
+$GUTTER_WIDTH : 1%;
 $UNIT_SIZE : (100% / $COLS);
 $MOBILE_THRESHOLD : 35.5em;
 $ROW_MARGIN : 10px;
 
 .row {
   display: block;
-  margin-right: -0.5rem;
-  margin-left: -0.5rem;
+  margin-top:10px;
 }
 
 .col {
   max-width: 100%;
   flex: 0 0 auto;
-  padding-left:$GUTTER_WIDTH;
-  padding-right:$GUTTER_WIDTH;
+  margin: 10px $GUTTER_WIDTH 0 $GUTTER_WIDTH;
+  border:1px dotted #BBB;
 }
 
 @mixin col($cols) {
-  max-width:($cols * $UNIT_SIZE);
-  flex-basis:($cols * $UNIT_SIZE);
+  flex-basis:($cols * $UNIT_SIZE) - ($GUTTER_WIDTH * 2);
 }
 
 @mixin offset($cols){
   margin-left:$cols * $UNIT_SIZE;
 }
 
-// Basic column widths
+// Basic column widths for mobile
 @for $i from 1 through 12 {
   .sm-#{$i} { @include col($i) }
 }
@@ -37,8 +35,6 @@ $ROW_MARGIN : 10px;
   .row {
     display: flex;
     flex-direction: row;
-    flex: 0 1 auto;
-    flex-wrap: wrap;
   }
 
   // Basic column widths
