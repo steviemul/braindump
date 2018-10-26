@@ -1,18 +1,23 @@
 $COLS : 12;
+$CONTAINER_WIDTH : 100%;
 $GUTTER_WIDTH : 1%;
 $UNIT_SIZE : (100% / $COLS);
 $MOBILE_THRESHOLD : 35.5em;
-$ROW_MARGIN : 10px;
+$TOP_MARGIN : 10px;
+
+.container {
+  width: $CONTAINER_WIDTH;
+  margin-right: auto;
+  margin-left: auto;
+}
 
 .row {
   display: block;
-  margin-top:10px;
 }
 
 .col {
-  max-width: 100%;
   flex: 0 0 auto;
-  margin: 10px $GUTTER_WIDTH 0 $GUTTER_WIDTH;
+  margin: $TOP_MARGIN $GUTTER_WIDTH 0 $GUTTER_WIDTH;
   border:1px dotted #BBB;
 }
 
@@ -20,13 +25,20 @@ $ROW_MARGIN : 10px;
   flex-basis:($cols * $UNIT_SIZE) - ($GUTTER_WIDTH * 2);
 }
 
-@mixin offset($cols){
+@mixin offset($cols) {
   margin-left:$cols * $UNIT_SIZE;
 }
 
 // Basic column widths for mobile
-@for $i from 1 through 12 {
+@for $i from 1 through $COLS {
   .sm-#{$i} { @include col($i) }
+}
+
+// Basic column offset
+@for $i from 1 through $COLS {
+  .off-#{$i} {
+    @include offset($i)
+  }
 }
 
 @media (min-width: $MOBILE_THRESHOLD) {
@@ -38,13 +50,7 @@ $ROW_MARGIN : 10px;
   }
 
   // Basic column widths
-  @for $i from 1 through 12 {
+  @for $i from 1 through $COLS {
     .md-#{$i} { @include col($i) }
   }
-  
-}
-
-// Basic column offset
- @for $i from 1 through 12 {
-  .off-#{$i} { @include offset($i) }
 }
