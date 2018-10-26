@@ -18,11 +18,11 @@ $TOP_MARGIN : 10px;
 .col {
   flex: 0 0 auto;
   margin: $TOP_MARGIN $GUTTER_WIDTH 0 $GUTTER_WIDTH;
-  border:1px dotted #BBB;
 }
 
 @mixin col($cols) {
   flex-basis:($cols * $UNIT_SIZE) - ($GUTTER_WIDTH * 2);
+  max-width:($cols * $UNIT_SIZE) - ($GUTTER_WIDTH * 2);
 }
 
 @mixin offset($cols) {
