@@ -1,9 +1,15 @@
 $COLS : 12;
 $CONTAINER_WIDTH : 100%;
 $GUTTER_WIDTH : 1%;
+
 $UNIT_SIZE : (100% / $COLS);
-$MOBILE_THRESHOLD : 35.5em;
 $TOP_MARGIN : 10px;
+
+// Viewport breakpoints
+$SM : 35.5em;
+$MD : 48em;
+$LG : 64em;
+$XL : 80em;
 
 .container {
   width: $CONTAINER_WIDTH;
@@ -16,7 +22,6 @@ $TOP_MARGIN : 10px;
 }
 
 .col {
-  flex: 0 0 auto;
   margin: $TOP_MARGIN $GUTTER_WIDTH 0 $GUTTER_WIDTH;
 }
 
@@ -29,28 +34,44 @@ $TOP_MARGIN : 10px;
   margin-left:$cols * $UNIT_SIZE;
 }
 
-// Basic column widths for mobile
+// Column widths for mobile
 @for $i from 1 through $COLS {
   .sm-#{$i} { @include col($i) }
 }
 
-// Basic column offset
+// Column offset
 @for $i from 1 through $COLS {
   .off-#{$i} {
     @include offset($i)
   }
 }
 
-@media (min-width: $MOBILE_THRESHOLD) {
-
-  // Turn on a grid layout
+@media (min-width: $SM) {
   .row {
     display: flex;
     flex-direction: row;
   }
 
+  .hidden-md {
+    display: none;
+  }
+
   // Basic column widths
   @for $i from 1 through $COLS {
     .md-#{$i} { @include col($i) }
+  }
+}
+
+@media (min-width: $MD) {
+  @for $i from 1 through $COLS {
+    .lg-#{$i} { @include col($i) }
+  }
+}
+
+@media (min-width: $LG) {
+  @for $i from 1 through $COLS {
+    .xl-#{$i} {
+      @include col($i)
+    }
   }
 }
